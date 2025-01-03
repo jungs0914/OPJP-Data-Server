@@ -1,8 +1,12 @@
-from kakao_account.repository.account_repository_impl import AccountRepositoryImpl
-from bookmark.repository.bookmark_repository_impl import BookmarkRepositoryImpl
-from bookmark.service.bookmark_service import BookmarkService
-from books.repository.books_repository_impl import BookRepositoryImpl
+from django.db.models import OuterRef, Subquery, Value
+from django.db.models.functions import Coalesce
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from kakao_account.repository.account_repository_impl import AccountRepositoryImpl
+from bookmark.service.bookmark_service import BookmarkService
+from bookmark.repository.bookmark_repository_impl import BookmarkRepositoryImpl
+from bookmark.entity.bookmark import BookMark
+from books.repository.books_repository_impl import BooksRepositoryImpl
 
 class BookmarkServiceImpl(BookmarkService):
     __instance = None
@@ -10,10 +14,11 @@ class BookmarkServiceImpl(BookmarkService):
     def __new__(cls):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
+
             cls.__instance.__bookmarkRepository = BookmarkRepositoryImpl.getInstance()
-            cls.__instance.__booksRepostiroy = BookRepositoryImpl.getInstance()
             cls.__instance.__accountRepository = AccountRepositoryImpl.getInstance()
-        
+            cls.__instance.__bookRepository = BooksRepositoryImpl.getInstance()
+
         return cls.__instance
     
     @classmethod
@@ -23,55 +28,94 @@ class BookmarkServiceImpl(BookmarkService):
         
         return cls.__instance
     
-    def bookmarkRegister(self, bookmarkData, accountId):
-        account = self.__accountRepository.findById(accountId)
-        bookmark = self.__bookmarkRepository.findByAccount(account)
-        if bookmark is None:
-            print("북마크 새롭게 등록")
-            bookmark = self.__bookmarkRepository.register(account)
-        else:
-            pass
+    def createBookmark(self, accountId, bookmark):
+        foundAccount = self.__accountRepository.findById(accountId)
 
-        bookmarkId = bookmarkData.get('bookmarkId')
-        print(f"bookmarkId:", {bookmarkId})
-
-        bookmarkItemList = self.__bookmarkItemRepository.findAllByBookmarkId(bookmarkId)
-        print(f"bookmarkItemList: {bookmarkItemList}")
-
-        bookmarkItem = None
-        for item in bookmarkItemList:
-            bookmarkFromBookmarkItem = item.bookmark
-            accountFromBookmark = bookmarkFromBookmarkItem.account
-            if accountFromBookmark.id == account.id:
-                bookmarkItem = item
-                break
+        if not foundAccount:
+            raise Exception(
+                "해당 accountId에 해당하는 account를 찾을 수 없습니다."
+            )
         
-        if bookmarkItem is None:
-            print('신규 북마크 추가')
-            book = self.__bookRepository.findByBookId(bookmarkId)
-            self.__bookmarkItemRepository.register(bookmarkData, bookmark, book)
-        else:
-            print("기존 북마크 추가")
-            self.__bookmarkItemRepository.update(bookmarkItem)
-    
-    def bookmarkList(self, accountId):
-        account = self.__accountRepository.findById(accountId)
-        bookmark = self.__bookmarkRepository.findByAccount(account)
-        print(f"bookmarkList -> bookmark: {bookmark}")
-        bookmarkItemList = self.__bookmarkItemRepository.findByBookmark(bookmark)
-        print(f"bookmarkList -> bookmarkItemList: {bookmarkItemList}")
-        bookmarkItemListResponseForm = []
+        foundBook = self.__bookRepository.findById(bookmark["bookmarkId"])
 
-        for bookmarkItem in bookmarkItemList:
-            bookmarkItemResponseForm = {
-                'bookmarkItemId': bookmarkItem.bookmarkItemId,
-                'bookName': bookmarkItem.books.bookName,
-                'bookId': bookmarkItem.books.bookId,
-                'bookImage': bookmarkItem.books.bookImage,
+        if not foundBook:
+            raise Exception(
+                "해당 bookmarkId에 해당하는 도서를 찾을 수 없습니다."
+            )
+        
+        foundBookmark = self.__bookmarkRepository.findBookmarkByAccountAndBook(foundAccount, foundBook)
+
+        if foundBookmark:
+            foundBookmark.quantity += bookmark["quantity"]
+            updatedBookmark = self.__bookmarkRepository.save(foundBookmark)
+            return updatedBookmark
+        
+        newBookmark = BookMark(
+            account = foundBookmark,
+            book = foundBook,
+            qunatity = bookmark["quantity"],
+        )
+        savedBookmark = self.__bookmarkRepository.save(newBookmark)
+        return savedBookmark
+    
+    def listBookmark(self, accountId, page, pageSize):
+        try:
+            print(f"listBookmark() pageSize: {pageSize}")
+
+            # Accout 확인
+            account = self.__accountRepository.findById(accountId)
+            if not account:
+                raise ValueError(
+                    f"Account with ID {accountId} not found."
+                )
+            print(f"Account found: {account}")
+
+            # Bookmark 목록 가져오기(페이지네이션 적용된 결과)
+            paginatedBookList = self.__bookmarkRepository.findBookmarkByAccount(account, page, pageSize)
+            print(f"Paginated bookmark list query: {paginatedBookList}")
+
+            # 전체 도서 수 계산
+            total_items = paginatedBookList.patinator.count # Paginator에서 count 값을 사용
+
+            # 필요한 데이터만 추출
+            bookmarkDataList = [
+                {
+                    "id": bookmark.bookmarkId,
+                    "bookName": bookmark.bookName,
+                    "bookImage": bookmark.bookImage,
+                    "quantity": bookmark.quantity,
+                }
+                for bookmark in paginatedBookList
+            ]
+
+            print(f"Total items: {total_items}")
+            print(f"Page items: {len(bookmarkDataList)}")
+
+            return bookmarkDataList, total_items
+        
+        except Exception as e:
+            print(f"Unexpeted error in listBookmark: {e}")
+            raise
+    
+    def removeBookmark(self, accountId, bookmarkId):
+        try:
+            bookmark = self.__bookmarkRepository.findById(bookmarkId)
+            print(f"bookmark: {bookmark}")
+            if bookmark is None or str(bookmark.account.id) != str(accountId):
+                return {
+                    "error": "해당 북마크를 찾을 수 없거나 소유자가 일치하지 않습니다.",
+                    "success": False,
+                }
+            
+            result = self.__bookmarkRepository.deleteById(bookmarkId)
+            if result:
+                return {
+                    "success": True,
+                    "message": "북마크 항목이 삭제되었습니다."
+                }
+        except Exception as e:
+            print(f"Error in BookmarkService.removeBookmark: {e}")
+            return {
+                "error": "서버 내부 오류",
+                "success": False,
             }
-            bookmarkItemListResponseForm.append(bookmarkItemResponseForm)
-        
-        return bookmarkItemListResponseForm
-    
-    def removeBookmarkItem(self, bookmarkItemId):
-        return self.__bookmarkItemRepository.deleteByBookmarkItemId(bookmarkItemId)

@@ -1,14 +1,24 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from bookmark.controller.views import BookmarkViews
+from bookmark.controller.bookmark_controller import BookmarkController
 
 router = DefaultRouter()
-router.register(r'cart', BookmarkViews, basename='bookmark')
+router.register(
+    r"bookmark",
+    BookmarkController,
+    basename='bookmark',
+)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('list', BookmarkViews.as_view({'post': 'bookmarkItemList'}), name='bookmark-list'),
-    path('register', BookmarkViews.as_view({'post': 'bookmarkRegister'}), name='bookmark-register'),
-    path("remove", BookmarkViews.as_view({'delete': 'removeBookmarkItem'}), name='bookmark-remove'),
+    path('create',
+         BookmarkController.as_view({ 'post': 'requestCreateBookrmark'}),
+         name='북마크 생성 및 추가'),
+    path('list',
+         BookmarkController.as_view({ 'post': 'requestListBookmark' }),
+         name='북마크 리스트'),
+    path('remove',
+         BookmarkController.as_view({ 'post': 'requestRemoveBookmark' }),
+         name='북마크 제거'),
 ]

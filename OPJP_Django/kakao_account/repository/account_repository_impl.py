@@ -34,3 +34,11 @@ class AccountRepositoryImpl(AccountRepository):
             return Account.objects.get(id=accountId)
         except ObjectDoesNotExist:
             raise ObjectDoesNotExist(f"Account ID {accountId} 존재하지 않음.")
+    
+    def findByEmail(self, email):
+        try:
+            return Account.objects.get(email = email)
+        except ObjectDoesNotExist:
+            raise ObjectDoesNotExist(
+                f"Account {email} 존재하지 않음."
+            )
