@@ -2,14 +2,15 @@ from abc import ABC, abstractmethod
 
 
 class BookmarkService(ABC):
+
     @abstractmethod
-    def bookmarkRegister(self, bookmarkData, accountId):
+    def createBookmark(self, accountId, bookmark):
         pass
 
     @abstractmethod
-    def bookmarkList(self, accountId):
+    def listBookmark(self, accountId, page, pageSize):
         pass
 
     @abstractmethod
-    def removeBookmarkItem(self, bookmarkItemId):
+    def removeBookmark(self, accountId, bookmarkId):
         pass

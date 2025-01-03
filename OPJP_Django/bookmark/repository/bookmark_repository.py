@@ -2,10 +2,19 @@ from abc import ABC, abstractmethod
 
 
 class BookmarkRepository(ABC):
+
     @abstractmethod
-    def register(cls, account):
+    def save(self, bookmark):
         pass
 
     @abstractmethod
-    def findByAccount(self, account):
+    def findBookmarkByAccount(self, account, bookmark):
+        pass
+
+    @abstractmethod
+    def findById(self, bookmarkId):
+        pass
+
+    @abstractmethod
+    def deleteById(self, bookmarkId):
         pass

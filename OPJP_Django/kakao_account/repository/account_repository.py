@@ -10,3 +10,7 @@ class AccountRepository(ABC):
     @abstractmethod
     def findById(self, accountId):
         pass
+
+    @abstractmethod
+    def findByEmail(self, email):
+        pass

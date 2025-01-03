@@ -2,10 +2,11 @@ from abc import ABC, abstractmethod
 
 
 class PaymentRepository(ABC):
+    
     @abstractmethod
-    def register(self, account):
+    def request(self, paymentRequestData):
         pass
 
     @abstractmethod
-    def findByAccount(self, account):
+    def create(self, payment):
         pass

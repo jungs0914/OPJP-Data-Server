@@ -13,3 +13,6 @@ class Account(models.Model):
     
     def getId(self):
         return self.id
+    
+    def getEmail(self):
+        return self.email
