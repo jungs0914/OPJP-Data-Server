@@ -1,4 +1,4 @@
-# from rest_framework import serializers
+from rest_framework import serializers
 
-# class KakaoOauthAccessTokenSerializer(serializers.Serializer):
-#     code = serializers.CharField()
+class KakaoOauthAccessTokenSerializer(serializers.Serializer):
+    code = serializers.CharField()

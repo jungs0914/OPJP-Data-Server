@@ -28,6 +28,7 @@ urlpatterns = [
     path("kakao_account/", include('kakao_account.urls')),
     path("kakao_account_profile/", include('kakao_account_profile.urls')),
     path("kakao_authentication/", include('kakao_authentication.urls')),
+    path("kakao-oauth/", include('kakao_authentication.urls')),
     path("normalization/", include('normalization.urls')),
     path("order/", include('order.urls')),
     # path("payment/", include('payment.urls')),
@@ -35,4 +36,5 @@ urlpatterns = [
     path("regression/", include('regression.urls')),
     # path("resource/", include('resource.urls')),
     # path('subscription/', include('subscription.urls')),
+
 ]
