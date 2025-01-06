@@ -10,4 +10,4 @@ class AccountRoleType(models.Model):
     
     class Meta:
         db_table = 'account_role_type'
-        app_label = 'account'
+        app_label = 'kakao_account'

@@ -22,4 +22,4 @@ class Payment(models.Model):
     
     class Meta:
         db_table = 'payment'
-        app_table = 'payment'
+        app_label = 'payment'

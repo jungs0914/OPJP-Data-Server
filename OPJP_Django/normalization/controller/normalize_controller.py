@@ -14,5 +14,4 @@ class Normalizecontroller(viewsets.ViewSet):
         print(f"데이터 준비")
         data = {
             'Age': [25, 30, 35, None, 40],
-            ''
         }

@@ -9,7 +9,7 @@ class Account(models.Model):
 
     class Meta:
         db_table = 'account'
-        app_label = 'account'
+        app_label = 'kakao_account'
     
     def getId(self):
         return self.id

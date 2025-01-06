@@ -10,17 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
-import environ
+# import environ  # 맥은 X
 from pathlib import Path
 
 from django.conf.global_settings import CSRF_TRUSTED_ORIGINS
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent   # 맥은 X
 
 # Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+# environ.Env.read_env(os.path.join(BASE_DIR, '.env'))    # 맥은 X
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -53,17 +53,17 @@ INSTALLED_APPS = [
     'bookmark',
     'books',
     'cart',
-    'crawl',
+    # 'crawl',
     'kakao_account',
     'kakao_account_profile',
     'kakao_authentication',
     'normalization',
     'order',
-    'payment',
-    'redis_cache',
+    # 'payment',
+    # 'redis_cache',
     'regression',
-    'resource',
-    'subscription',
+    # 'resource',
+    # 'subscription',
 ]
 
 MIDDLEWARE = [

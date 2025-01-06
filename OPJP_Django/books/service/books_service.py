@@ -19,9 +19,9 @@ from abc import ABC, abstractmethod
 
 class BooksService(ABC):
 
-    @abstractmethod
-    def crawlBookData(self):
-        pass
+    # @abstractmethod
+    # def crawlBookData(self):
+    #     pass
 
     @abstractmethod
     def bookList(self):

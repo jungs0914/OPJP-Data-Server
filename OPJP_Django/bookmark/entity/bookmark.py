@@ -7,8 +7,9 @@ from books.entity.books import Books
 class BookMark(models.Model):
     bookmarkId = models.AutoField(primary_key=True)
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='bookmark')
-    bookName = models.ForeignKey(Books, on_delete=models.CASCADE, related_name='bookmark')
-    bookImage = models.ForeignKey(Books, on_delete=models.CASCADE, related_name='bookmark')
+    # bookName = models.ForeignKey(Books, on_delete=models.CASCADE, related_name='bookmark')
+    # bookImage = models.ForeignKey(Books, on_delete=models.CASCADE, related_name='bookmark')
+    books = models.ForeignKey(Books, on_delete=models.CASCADE, related_name='bookmark')
     quantity = models.PositiveIntegerField(default=0)
 
     class Meta:
