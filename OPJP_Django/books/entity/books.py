@@ -20,4 +20,4 @@ class Books(models.Model):
     
     class Meta:
         db_table = 'books'
-        app_label = 'books'     
+        app_label = 'books'

@@ -13,3 +13,4 @@ class BookRegistration(models.Model):
     
     class Meta:
         db_table = 'book_registration'
+        app_label = 'book_registration'

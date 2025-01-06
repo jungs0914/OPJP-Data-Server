@@ -33,7 +33,7 @@ import os
 
 from books.repository.books_repository_impl import BooksRepositoryImpl
 from books.service.books_service import BooksService
-from crawl.repository.crawl_repository_impl import CrawlRepositoryImpl
+# from crawl.repository.crawl_repository_impl import CrawlRepositoryImpl
 
 import re
 import pandas as pd
@@ -47,7 +47,7 @@ class BooksServiceImpl(BooksService):
             cls.__instance = super().__new__(cls)
 
             cls.__instance.__booksRepository = BooksRepositoryImpl.getInstance()
-            cls.__instance.__crawlRepository = CrawlRepositoryImpl.getInstance()
+            # cls.__instance.__crawlRepository = CrawlRepositoryImpl.getInstance()
         
         return cls.__instance
     
@@ -66,7 +66,7 @@ class BooksServiceImpl(BooksService):
             "Crawl Repository: ", getattr(self, "_BookServiceImpl__crawlRepository", None)
         )
 
-        bookData = self.__crawlRepository.crawl()
+        # bookData = self.__crawlRepository.crawl()
         print(f"bookData: {bookData}")
 
         if bookData is not None:
