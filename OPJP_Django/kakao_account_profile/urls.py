@@ -8,4 +8,5 @@ router.register(r"game", AccountProfileController, basename='game')
 
 urlpatterns = [
     path('', include(router.urls)),
+
 ]
