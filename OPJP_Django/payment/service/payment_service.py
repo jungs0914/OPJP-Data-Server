@@ -13,3 +13,7 @@ class PaymentService(ABC):
     @abstractmethod
     def removePaymentItem(self, paymentItemId):
         pass
+
+    @abstractmethod
+    def process(self, accountId, paymentKey, orderId, amount):
+        pass
