@@ -34,7 +34,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 
 # Application definition
@@ -109,6 +109,11 @@ KAKAO = {
     'REDIRECT_URI': os.getenv('KAKAO_REDIRECT_URI'),
     'TOKEN_REQUEST_URI': os.getenv('KAKAO_TOKEN_REQUEST_URI'),
     'USER_INFO_REQUEST_URI': os.getenv('KAKAO_USER_INFO_REQUEST_URI'),
+}
+
+TOSS_PAYMENT = {
+    'TOSS_PAYMENT_BASE_URL': os.getenv('TOSS_PAYMENT_BASE_URL'),
+    'TOSS_PAYMENT_SECRET_KEY': os.getenv('TOSS_PAYMENT_SECRET_KEY'),
 }
 
 ROOT_URLCONF = "OPJP_Django.urls"

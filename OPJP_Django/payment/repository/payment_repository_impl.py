@@ -13,8 +13,8 @@ class PaymentRepositoryImpl(PaymentRepository):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
 
-            cls.__instance.paymentApiBaseUrl = settings.TOSS_PAYMENTS["TOSS_PAYMENTS_BASE_URL"]
-            cls.__instance.paymentApiSecretKey = settings.TOSS_PAYMENTS["TOSS_PAYMENTS_SECRET_KEY"]
+            cls.__instance.paymentApiBaseUrl = settings.TOSS_PAYMENT["TOSS_PAYMENTS_BASE_URL"]
+            cls.__instance.paymentApiSecretKey = settings.TOSS_PAYMENT["TOSS_PAYMENTS_SECRET_KEY"]
         
         return cls.__instance
     
