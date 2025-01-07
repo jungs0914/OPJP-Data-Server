@@ -1,3 +1,9 @@
 # 디폴트 무시된 파일
 /shelf/
 /workspace.xml
+
+__pycache__/
+*.pyc
+
+.idea
+.DS_Store
