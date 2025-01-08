@@ -24,7 +24,10 @@ class AccountProfileServiceImpl(AccountProfileService):
     
     def createAccountProfile(self, accountId, nickname):
         account = self.__accountRepository.findById(accountId)
+        print(f"account: {account}")
+
         savedAccountProfile = self.__accountProfileRepository.save(account, nickname)
+        print(f"savedAccountProfile: {savedAccountProfile}")
         if savedAccountProfile is not None:
             return True
         

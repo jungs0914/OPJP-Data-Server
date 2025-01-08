@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'regression',
     # 'resource',
     # 'subscription',
+    'authentication',
 ]
 
 MIDDLEWARE = [
