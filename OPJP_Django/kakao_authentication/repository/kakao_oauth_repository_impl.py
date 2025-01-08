@@ -41,6 +41,10 @@ class KakaoOauthRepositoryImpl(KakaoOauthRepository):
             'client_secret': None
         }
 
+        print(f"self.clientId: {self.clientId}")
+        print(f"self.redirectUri: {self.redirectUri}")
+        print(f"code: {code}")
+
         response = requests.post(self.tokenRequestUri, data=accessTokenRequest)
         return response.json()
 

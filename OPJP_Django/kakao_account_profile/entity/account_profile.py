@@ -13,4 +13,4 @@ class AccountProfile(models.Model):
 
     class Meta:
         db_table = "account_profile"
-        app_label = "account_profile"
+        app_label = "kakao_account_profile"
