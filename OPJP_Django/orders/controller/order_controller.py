@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework import viewsets, status
 
 from redis_cache.service.redis_cache_service_impl import RedisCacheServiceImpl
-# from order.service.order_service_impl import OrderServiceImpl
+# from orders.service.order_service_impl import OrderServiceImpl
 # Create your views here.
 
 

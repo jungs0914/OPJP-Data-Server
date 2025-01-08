@@ -30,11 +30,10 @@ urlpatterns = [
     path("kakao_authentication/", include('kakao_authentication.urls')),
     path("kakao-oauth/", include('kakao_authentication.urls')),
     path("normalization/", include('normalization.urls')),
-    path("order/", include('order.urls')),
+    path("orders/", include('orders.urls')),
     # path("payment/", include('payment.urls')),
     # path("redis_cache/", include('redis_cache.urls')),
     path("regression/", include('regression.urls')),
     # path("resource/", include('resource.urls')),
     # path('subscription/', include('subscription.urls')),
-
 ]
