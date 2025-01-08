@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'kakao_account_profile',
     'kakao_authentication',
     'normalization',
-    'order',
+    'orders',
     # 'payment',
     # 'redis_cache',
     'regression',
