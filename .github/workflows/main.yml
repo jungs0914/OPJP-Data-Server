@@ -18,8 +18,8 @@ jobs:
 
     - name: Download wait-for-it.sh
       run: |
-        curl -o db_mp/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
-        chmod +x db_mp/wait-for-it.sh
+        curl -o opjp_db/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+        chmod +x opjp_db/wait-for-it.sh
 
     - name: Setup Python
       uses: actions/setup-python@v2
@@ -40,8 +40,8 @@ jobs:
         fi
     - name: Grant execute permission for scripts
       run: |
-        chmod +x db_mp/wait-for-it.sh
-        chmod +x db_mp/manage.py
+        chmod +x opjp_db/wait-for-it.sh
+        chmod +x opjp_db/manage.py
     
     - name: Configure Docker
       uses: docker/setup-buildx-action@v1
